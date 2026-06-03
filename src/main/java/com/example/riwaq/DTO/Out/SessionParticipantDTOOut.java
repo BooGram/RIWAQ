@@ -1,4 +1,4 @@
-package com.example.riwaq.DTO.DTOOUT;
+package com.example.riwaq.DTO.Out;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

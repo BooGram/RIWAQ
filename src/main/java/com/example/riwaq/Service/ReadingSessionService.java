@@ -1,8 +1,8 @@
 package com.example.riwaq.Service;
 
 import com.example.riwaq.Api.ApiException;
-import com.example.riwaq.DTO.DTOIN.ReadingSessionDTOIn;
-import com.example.riwaq.DTO.DTOOUT.ReadingSessionDTOOut;
+import com.example.riwaq.DTO.In.ReadingSessionDTOIn;
+import com.example.riwaq.DTO.Out.ReadingSessionDTOOut;
 import com.example.riwaq.Model.ReadingSession;
 import com.example.riwaq.Repository.ReadingSessionRepository;
 import lombok.RequiredArgsConstructor;
