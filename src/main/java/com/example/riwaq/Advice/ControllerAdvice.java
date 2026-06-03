@@ -1,8 +1,8 @@
-package com.example.relation.Advice;
+package com.example.riwaq.Advice;
 
 
-import com.example.relation.Api.ApiException;
-import com.example.relation.Api.ApiResponse;
+import com.example.riwaq.Api.ApiException;
+import com.example.riwaq.Api.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;

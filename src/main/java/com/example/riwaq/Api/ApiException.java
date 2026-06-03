@@ -1,4 +1,4 @@
-package com.example.relation.Api;
+package com.example.riwaq.Api;
 
 public class ApiException extends RuntimeException {
     public  ApiException(String message){

@@ -1,4 +1,4 @@
-package com.example.relation.Api;
+package com.example.riwaq.Api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
