@@ -3,6 +3,7 @@ package com.example.riwaq.Service;
 import com.example.riwaq.Api.ApiException;
 import com.example.riwaq.DTO.BookDto;
 //import com.example.riwaq.DTO.GoogleBookDto;
+import com.example.riwaq.DTO.GoogleBookDto;
 import com.example.riwaq.Model.Book;
 import com.example.riwaq.Model.Post;
 import com.example.riwaq.Model.User;
@@ -29,6 +30,7 @@ public class BookService {
     private final ReviewRepository reviewRepository;
     private final PostRepository postRepository;
     private final OpenAIService openAIService;
+    private final GoogleBookService googleBookService;
 
     public void addBook(Integer userId, BookDto dto) {
 

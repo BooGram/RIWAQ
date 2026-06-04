@@ -1,8 +1,8 @@
 package com.example.riwaq.Service;
 
-import com.example.riwaq.Api.ApiException;
-import com.example.riwaq.DTO.IN.SpaceMembershipDTOIn;
-import com.example.riwaq.DTO.OUT.SpaceMembershipDTOOut;
+import com.example.riwaq.DTO.In.PostDTOIn;
+import com.example.riwaq.DTO.In.SpaceMembershipDTOIn;
+import com.example.riwaq.DTO.Out.FriendshipDTOOut;
 import com.example.riwaq.Model.SpaceMembership;
 import com.example.riwaq.Repository.SpaceMembershipRepository;
 import lombok.RequiredArgsConstructor;
