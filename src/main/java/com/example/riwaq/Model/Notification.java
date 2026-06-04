@@ -21,36 +21,32 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotNull
+    private Integer userId;
 
     @NotEmpty
     private String message;
 
-    @NotEmpty
-    @Pattern(regexp = "CREATED|UNREAD|READ|DELETED", message = "Status must be CREATED, UNREAD, READ, or DELETED")
-    @Column(nullable = false)
-    private String status;
+//    @NotEmpty
+//    @Pattern(regexp = "CREATED|UNREAD|READ|DELETED", message = "Status must be CREATED, UNREAD, READ, or DELETED")
+////    @Column(nullable = false)
+//    private String status;
 
     @NotEmpty
-    @Pattern(regexp = "FRIEND_REQUEST|FRIEND_ACCEPTED|POST_LIKE|NEW_REVIEW|GENERAL", message = "Type must be FRIEND_REQUEST, FRIEND_ACCEPTED, POST_LIKE, NEW_REVIEW, or GENERAL")
-    @Column(nullable = false)
+    @Pattern(
+            regexp = "WELCOME|BOOK_ADDED|BOOK_COMPLETED|GENERAL",
+            message = "Invalid notification type"
+    )     @Column(nullable = false)
     private String type;
 
-    private Integer referenceId;
+//    private Integer referenceId;
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @NotNull
-    private Integer recipientId;
+    private Boolean sentByEmail = false;
+    private Boolean sentByWhatsApp = false;
 
-    private Integer senderId;
 
-//     @ManyToOne
-//     @JoinColumn(name = "recipient_id", insertable = false, updatable = false)
-//     private User recipient;
-//
-//     @ManyToOne
-//     @JoinColumn(name = "sender_id", insertable = false, updatable = false)
-//     private User sender;
 }

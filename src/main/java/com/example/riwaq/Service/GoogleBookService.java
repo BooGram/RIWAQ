@@ -15,15 +15,7 @@ public class GoogleBookService {
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-//    public GoogleBookDto searchBook(String title) {
-//
-//        String url = "https://www.googleapis.com/books/v1/volumes?q="
-//                + title
-//                + "&key="
-//                + apiKey;
-//
-//        return restTemplate.getForObject(url, GoogleBookDto.class);
-//    }
+
 
     public GoogleBookDto searchBook(String title) {
         String url = "https://www.googleapis.com/books/v1/volumes?q="
@@ -38,7 +30,9 @@ public class GoogleBookService {
         }
 
         JsonNode volumeInfo = root.get("items").get(0).get("volumeInfo");
-
+        if(root.get("items").size() == 0){
+            throw new ApiException("Book not found");
+        }
         String bookTitle = volumeInfo.has("title") ? volumeInfo.get("title").asText() : null;
         String author = volumeInfo.has("authors") ? volumeInfo.get("authors").get(0).asText() : null;
         Integer pageCount = volumeInfo.has("pageCount") ? volumeInfo.get("pageCount").asInt() : null;
