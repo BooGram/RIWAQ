@@ -3,8 +3,10 @@ package com.example.riwaq.Service;
 import com.example.riwaq.Api.ApiException;
 import com.example.riwaq.DTO.In.SpaceMembershipDTOIn;
 import com.example.riwaq.DTO.Out.SpaceMembershipDTOOut;
+import com.example.riwaq.Model.Space;
 import com.example.riwaq.Model.SpaceMembership;
 import com.example.riwaq.Repository.SpaceMembershipRepository;
+import com.example.riwaq.Repository.SpaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,26 @@ import java.util.List;
 public class SpaceMembershipService {
 
     private final SpaceMembershipRepository spaceMembershipRepository;
+    private final SpaceRepository spaceRepository;
 
-    public void addMembership(SpaceMembershipDTOIn dto){
+    public void addMembership(SpaceMembershipDTOIn dto) {
+
+        Space space = spaceRepository.findSpaceBySpaceId(dto.getSpaceId());
+
+        if (space == null) {
+            throw new ApiException("Space not found");
+        }
+
+        boolean exists = spaceMembershipRepository.existsByUserIdAndSpaceId(dto.getUserId(), dto.getSpaceId());
+
+        if (exists) {
+            throw new ApiException("User already joined this space");
+        }
 
         SpaceMembership membership = new SpaceMembership();
 
-        membership.setSpaceId(dto.getSpaceId());
         membership.setUserId(dto.getUserId());
+        membership.setSpaceId(dto.getSpaceId());
         membership.setJoinedAt(LocalDateTime.now());
 
         spaceMembershipRepository.save(membership);
@@ -50,26 +65,45 @@ public class SpaceMembershipService {
         return dtoOutList;
     }
 
-    public void updateMembership(Integer membershipId,
-                                 SpaceMembershipDTOIn dto){
+    public void updateMembership(Integer membershipId, SpaceMembershipDTOIn dto) {
 
-        SpaceMembership membership = spaceMembershipRepository
-                .findByMembershipId(membershipId)
-                .orElseThrow(() ->
-                        new ApiException("Membership not found"));
+        SpaceMembership membership = spaceMembershipRepository.findSpaceMembershipByMembershipId(membershipId);
 
-        membership.setSpaceId(dto.getSpaceId());
-        membership.setUserId(dto.getUserId());
+        if (membership == null) {
+            throw new ApiException("Membership not found");
+        }
+
+        if (dto.getSpaceId() != null) {
+
+            Space space = spaceRepository.findSpaceBySpaceId(dto.getSpaceId());
+
+            if (space == null) {
+                throw new ApiException("Space not found");
+            }
+
+            boolean exists = spaceMembershipRepository.existsByUserIdAndSpaceId(dto.getUserId(), dto.getSpaceId());
+
+            if (exists) {
+                throw new ApiException("User already joined this space");
+            }
+
+            membership.setSpaceId(dto.getSpaceId());
+        }
+
+        if (dto.getUserId() != null) {
+            membership.setUserId(dto.getUserId());
+        }
 
         spaceMembershipRepository.save(membership);
     }
 
-    public void deleteMembership(Integer membershipId){
+    public void deleteMembership(Integer membershipId) {
 
-        SpaceMembership membership = spaceMembershipRepository
-                .findByMembershipId(membershipId)
-                .orElseThrow(() ->
-                        new ApiException("Membership not found"));
+        SpaceMembership membership = spaceMembershipRepository.findSpaceMembershipByMembershipId(membershipId);
+
+        if (membership == null) {
+            throw new ApiException("Membership not found");
+        }
 
         spaceMembershipRepository.delete(membership);
     }
