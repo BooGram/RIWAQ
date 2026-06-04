@@ -1,4 +1,4 @@
-package com.example.riwaq.DTO.OUT;
+package com.example.riwaq.DTO.Out;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FriendshipDTOOut {
-    private Integer id;
+public class ReadingChallengeDTOOut {
+
+    private Integer friendshipId;
+    private Integer bookId;
     private Integer senderId;
     private Integer receiverId;
+    private Integer senderPage;
+    private Integer receiverPage;
     private String status;
 }

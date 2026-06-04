@@ -5,14 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class SpaceMembershipDTOIn {
+public class PostLikeDTOIn {
 
-    @NotNull(message = "Space id is required")
-    private Integer spaceId;
-
-    @NotNull(message = "User id is required")
+    @NotNull(message = "User ID must not be null")
     private Integer userId;
+
+    @NotNull(message = "Post ID must not be null")
+    private Integer postId;
 }

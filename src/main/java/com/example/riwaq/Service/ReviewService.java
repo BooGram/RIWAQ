@@ -1,8 +1,8 @@
 package com.example.riwaq.Service;
 
 import com.example.riwaq.Api.ApiException;
-import com.example.riwaq.DTO.IN.ReviewDTOIn;
-import com.example.riwaq.DTO.OUT.ReviewDTOOut;
+import com.example.riwaq.DTO.In.ReviewDTOIn;
+import com.example.riwaq.DTO.Out.ReviewDTOOut;
 import com.example.riwaq.Model.Review;
 import com.example.riwaq.Repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +36,8 @@ public class ReviewService {
         Review review = new Review();
         review.setContent(dto.getContent());
         review.setRating(dto.getRating());
-        review.setUserId(dto.getUserId());
-        review.setBookId(dto.getBookId());
+//        review.setUserId(dto.getUserId());
+//        review.setBookId(dto.getBookId());
         reviewRepository.save(review);
     }
 
@@ -48,8 +48,8 @@ public class ReviewService {
         }
         review.setContent(dto.getContent());
         review.setRating(dto.getRating());
-        review.setUserId(dto.getUserId());
-        review.setBookId(dto.getBookId());
+//        review.setUserId(dto.getUserId());
+//        review.setBookId(dto.getBookId());
         reviewRepository.save(review);
     }
 
@@ -66,9 +66,9 @@ public class ReviewService {
                 review.getId(),
                 review.getContent(),
                 review.getRating(),
-                review.getIsEdited(),
-                review.getUserId(),
-                review.getBookId()
+                review.getIsEdited()
+//                review.getUserId(),
+//                review.getBookId()
         );
     }
 }

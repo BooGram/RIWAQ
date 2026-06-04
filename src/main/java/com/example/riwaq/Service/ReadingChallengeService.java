@@ -1,6 +1,6 @@
 package com.example.riwaq.Service;
 
-import com.example.riwaq.DTO.IN.ReadingChallengeDTOIn;
+import com.example.riwaq.DTO.In.ReadingChallengeDTOIn;
 import com.example.riwaq.Model.Book;
 import com.example.riwaq.Model.Friendship;
 import com.example.riwaq.Model.ReadingChallenge;
