@@ -34,6 +34,12 @@ public class Review {
     @Column(nullable = false)
     private Boolean isEdited = false;
 
+//    @NotNull
+//    private Integer userId;
+//
+//    @NotNull
+//    private Integer bookId;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -42,19 +48,11 @@ public class Review {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @NotNull
-    @Column(name = "book_id")
-    private Integer bookId;
+     @ManyToOne
+     @JoinColumn(name = "user_id", insertable = false, updatable = false)
+     private User user;
 
-    @NotNull
-    @Column(name = "user_id")
-    private Integer userId;
-
-    @ManyToOne
-    @JoinColumn(name = "book_id", insertable = false, updatable = false)
-    private Book book;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private User user;
+     @ManyToOne
+     @JoinColumn(name = "book_id", insertable = false, updatable = false)
+     private Book book;
 }

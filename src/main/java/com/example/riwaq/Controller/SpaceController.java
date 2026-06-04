@@ -1,6 +1,7 @@
 package com.example.riwaq.Controller;
 
 import com.example.riwaq.Api.ApiResponse;
+import com.example.riwaq.DTO.In.SpaceDTOIn;
 import com.example.riwaq.Service.SpaceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class SpaceController {
     private final SpaceService spaceService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addSpace(@RequestBody @Valid com.example.riwaq.DTO.In.NotificationDTOIn.SpaceDTOIn dto){
+    public ResponseEntity<?> addSpace(@RequestBody @Valid SpaceDTOIn dto){
         spaceService.addSpace(dto);
         return ResponseEntity.status(200).body(new ApiResponse("Space added successfully"));
     }
@@ -26,7 +27,7 @@ public class SpaceController {
     }
 
     @PutMapping("/update/{spaceId}")
-    public ResponseEntity<?> updateSpace(@PathVariable Integer spaceId, @RequestBody @Valid com.example.riwaq.DTO.In.NotificationDTOIn.SpaceDTOIn dto){
+    public ResponseEntity<?> updateSpace(@PathVariable Integer spaceId, @RequestBody @Valid SpaceDTOIn dto){
         spaceService.updateSpace(spaceId,dto);
         return ResponseEntity.status(200).body(new ApiResponse("Space updated successfully"));
     }
