@@ -1,5 +1,6 @@
 package com.example.riwaq.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,10 +26,18 @@ public class UserBook {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({
+            "password",
+            "email",
+            "phoneNumber"
+    })
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
+    @JsonIgnoreProperties({
+            "createdByUserId"
+    })
     private Book book;
 
 

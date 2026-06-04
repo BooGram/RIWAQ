@@ -34,6 +34,18 @@ public class UserBookService {
             throw new ApiException("User not found");
         }
 
+        UserBook existingUserBook =
+                userBookRepository.findUserBookByUser_IdAndBook_Id(
+                        userId,
+                        bookId
+                );
+        // Check if the user already added this book before.
+        // this prevents duplicate books in the user's reading list.
+        if (existingUserBook != null) {
+            throw new ApiException(
+                    "This book is already in the user's reading list"
+            );
+        }
         Book book = bookRepository.findBookById(bookId);
         if (book == null) {
             throw new ApiException("Book not found");
@@ -217,5 +229,18 @@ public class UserBookService {
         response.put("aiAnalysis", aiAnalysis);
 
         return response;
+    }
+    public List<UserBook> getBooksBetweenDates(LocalDate date1, LocalDate date2){
+        List<UserBook> books =
+                userBookRepository.findByStartedAtBetween(
+                        date1,
+                        date2
+                );
+
+        if(books.isEmpty()){
+            throw new ApiException("No books found in this date range");
+        }
+
+        return books;
     }
 }
