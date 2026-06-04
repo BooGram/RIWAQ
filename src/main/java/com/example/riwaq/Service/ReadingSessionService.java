@@ -17,7 +17,7 @@ public class ReadingSessionService {
 
     private final ReadingSessionRepository readingSessionRepository;
 
-    public void addSession(ReadingSessionDTOIn dto){
+    public void addSession(FriendshipDTOIn.ReadingSessionDTOIn dto){
 
         ReadingSession session = new ReadingSession();
 
@@ -27,15 +27,15 @@ public class ReadingSessionService {
         readingSessionRepository.save(session);
     }
 
-    public List<ReadingSessionDTOOut> getAllSessions(){
+    public List<NotificationDTOOut.ReadingSessionDTOOut> getAllSessions(){
 
         List<ReadingSession> sessions = readingSessionRepository.findAll();
 
-        List<ReadingSessionDTOOut> dtoOutList = new ArrayList<>();
+        List<NotificationDTOOut.ReadingSessionDTOOut> dtoOutList = new ArrayList<>();
 
         for(ReadingSession session : sessions){
 
-            ReadingSessionDTOOut dtoOut = new ReadingSessionDTOOut();
+            NotificationDTOOut.ReadingSessionDTOOut dtoOut = new NotificationDTOOut.ReadingSessionDTOOut();
 
             dtoOut.setSessionId(session.getSessionId());
             dtoOut.setBookId(session.getBookId());

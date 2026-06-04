@@ -16,7 +16,7 @@ public class SessionParticipantService {
 
     private final SessionParticipantRepository sessionParticipantRepository;
 
-    public void addParticipant(SessionParticipantDTOIn dto){
+    public void addParticipant(FriendshipDTOIn.SessionParticipantDTOIn dto){
 
         SessionParticipant participant = new SessionParticipant();
 
@@ -26,15 +26,15 @@ public class SessionParticipantService {
         sessionParticipantRepository.save(participant);
     }
 
-    public List<SessionParticipantDTOOut> getAllParticipants(){
+    public List<FriendshipDTOOut.SessionParticipantDTOOut> getAllParticipants(){
 
         List<SessionParticipant> participants = sessionParticipantRepository.findAll();
 
-        List<SessionParticipantDTOOut> dtoOutList = new ArrayList<>();
+        List<FriendshipDTOOut.SessionParticipantDTOOut> dtoOutList = new ArrayList<>();
 
         for(SessionParticipant participant : participants){
 
-            SessionParticipantDTOOut dtoOut = new SessionParticipantDTOOut();
+            FriendshipDTOOut.SessionParticipantDTOOut dtoOut = new FriendshipDTOOut.SessionParticipantDTOOut();
 
             dtoOut.setParticipantId(participant.getParticipantId());
             dtoOut.setSessionId(participant.getSessionId());
