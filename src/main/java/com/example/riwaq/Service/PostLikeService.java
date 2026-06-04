@@ -5,10 +5,13 @@ import com.example.riwaq.DTO.IN.PostLikeDTOIn;
 import com.example.riwaq.DTO.OUT.PostLikeDTOOut;
 import com.example.riwaq.Model.Post;
 import com.example.riwaq.Model.PostLike;
+import com.example.riwaq.Model.User;
 import com.example.riwaq.Repository.PostLikeRepository;
 import com.example.riwaq.Repository.PostRepository;
+import com.example.riwaq.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +22,7 @@ public class PostLikeService {
 
     private final PostLikeRepository postLikeRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     public List<PostLikeDTOOut> getAllPostLikes() {
         return postLikeRepository.findAll()
@@ -35,17 +39,38 @@ public class PostLikeService {
         return convertToDTO(postLike);
     }
 
+    @Transactional
     public void addPostLike(PostLikeDTOIn dto) {
+        User user = userRepository.findUserById(dto.getUserId());
+
+        if (user == null) {
+            throw new ApiException("User not found");
+        }
+
+        Post post = postRepository.findPostById(dto.getPostId());
+
+        if (post == null) {
+            throw new ApiException("Post not found");
+        }
+
+        PostLike existing = postLikeRepository.findPostLikeByUserIdAndPostId(
+                dto.getUserId(),
+                dto.getPostId()
+        );
+
+        if (existing != null) {
+            throw new ApiException("User already liked this post");
+        }
+
         PostLike postLike = new PostLike();
         postLike.setUserId(dto.getUserId());
         postLike.setPostId(dto.getPostId());
+
         postLikeRepository.save(postLike);
 
-        Post post = postRepository.findPostById(dto.getPostId());
-        if (post != null) {
-            post.setLikeCounter(post.getLikeCounter() + 1);
-            postRepository.save(post);
-        }
+        int likeCounter = post.getLikeCounter() == null ? 0 : post.getLikeCounter();
+        post.setLikeCounter(likeCounter + 1);
+        postRepository.save(post);
     }
 
     public void updatePostLike(Integer id, PostLikeDTOIn dto) {
@@ -58,6 +83,7 @@ public class PostLikeService {
         postLikeRepository.save(postLike);
     }
 
+    @Transactional
     public void deletePostLike(Integer id) {
         PostLike postLike = postLikeRepository.findPostLikeById(id);
         if (postLike == null) {

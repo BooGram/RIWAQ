@@ -1,5 +1,6 @@
 package com.example.riwaq.Controller;
 
+import com.example.riwaq.Api.ApiResponse;
 import com.example.riwaq.DTO.IN.PostDTOIn;
 import com.example.riwaq.Service.PostService;
 import jakarta.validation.Valid;
@@ -16,7 +17,7 @@ public class PostController {
 
     @GetMapping("/get")
     public ResponseEntity<?> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllPosts());
+        return ResponseEntity.status(200).body(postService.getAllPosts());
     }
 
     @GetMapping("/get/{id}")
@@ -32,7 +33,7 @@ public class PostController {
     @PostMapping("/add")
     public ResponseEntity<?> addPost(@RequestBody @Valid PostDTOIn dto) {
         postService.addPost(dto);
-        return ResponseEntity.ok("Post added successfully");
+        return ResponseEntity.status(200).body(new ApiResponse("Post added successfully"));
     }
 
     @PutMapping("/update/{id}")

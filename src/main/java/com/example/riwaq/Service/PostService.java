@@ -12,6 +12,7 @@ import com.example.riwaq.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,10 +26,15 @@ public class PostService {
     private final UserBookRepository userBookRepository;
 
     public List<PostDTOOut> getAllPosts() {
-        return postRepository.findAll()
-                .stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        List<Post> posts = postRepository.findAll();
+
+        List<PostDTOOut> dtoOutList = new ArrayList<>();
+
+        for (Post post : posts) {
+            dtoOutList.add(convertToDTO(post));
+        }
+
+        return dtoOutList;
     }
 
     public PostDTOOut getPostById(Integer id) {
@@ -40,7 +46,7 @@ public class PostService {
     }
 
     public List<PostDTOOut> getPostsByCurrentPage(Integer userBookId, Integer currentPage) {
-        List<Post> posts = postRepository.findPostsByUserBookIdAndPageNumberLessThanEqual(userBookId, currentPage);
+        List<Post> posts = postRepository.findPostsByUserBook_IdAndPageNumberLessThanEqual(userBookId, currentPage);
         if (posts.isEmpty()) {
             throw new ApiException("No posts found for this book up to page: " + currentPage);
         }
@@ -51,13 +57,28 @@ public class PostService {
         Post post = new Post();
         post.setContent(dto.getContent());
         post.setPageNumber(dto.getPageNumber());
-//        post.setUserId(dto.getUserId());
-//        post.setUserBookId(dto.getUserBookId());
         User user = userRepository.findUserById(dto.getUserId());
-        UserBook userBook = userBookRepository.findUserBookById(dto.getUserBookId());
+
+        if (user == null) {
+            throw new ApiException("User not found");
+        }
 
         post.setUser(user);
-        post.setUserBook(userBook);
+
+        if (dto.getUserBookId() != null) {
+            UserBook userBook = userBookRepository.findUserBookById(dto.getUserBookId());
+
+            if (userBook == null) {
+                throw new ApiException("UserBook not found");
+            }
+
+            if (!userBook.getUser().getId().equals(user.getId())) {
+                throw new ApiException("UserBook does not belong to this user");
+            }
+
+            post.setUserBook(userBook);
+        }
+
         postRepository.save(post);
     }
 
@@ -68,14 +89,31 @@ public class PostService {
         }
         post.setContent(dto.getContent());
         post.setPageNumber(dto.getPageNumber());
-//        post.setUserId(dto.getUserId());
-//        post.setUserBookId(dto.getUserBookId());
 
         User user = userRepository.findUserById(dto.getUserId());
-        UserBook userBook = userBookRepository.findUserBookById(dto.getUserBookId());
+
+        if (user == null) {
+            throw new ApiException("User not found");
+        }
 
         post.setUser(user);
-        post.setUserBook(userBook);
+
+        if (dto.getUserBookId() != null) {
+            UserBook userBook = userBookRepository.findUserBookById(dto.getUserBookId());
+
+            if (userBook == null) {
+                throw new ApiException("UserBook not found");
+            }
+
+            if (!userBook.getUser().getId().equals(user.getId())) {
+                throw new ApiException("UserBook does not belong to this user");
+            }
+
+            post.setUserBook(userBook);
+        } else {
+            post.setUserBook(null);
+        }
+
         postRepository.save(post);
     }
 
@@ -93,10 +131,8 @@ public class PostService {
                 post.getContent(),
                 post.getPageNumber(),
                 post.getLikeCounter(),
-//                post.getUserId(),
-//                post.getUserBookId()
-                post.getUser().getId(),
-                post.getUserBook().getId()
+                post.getUser() == null ? null : post.getUser().getId(),
+                post.getUserBook() == null ? null : post.getUserBook().getId()
         );
     }
 }
