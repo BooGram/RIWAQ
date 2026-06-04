@@ -98,7 +98,19 @@ public class UserBookService {
                     userBook.getUser().getId(),
                     book.getTitle()
             );
+            List<String> similarBooks = getSimilarBookTitles(book);
+
+            notificationService.sendSimilarBooksNotification(
+                    userBook.getUser().getId(),
+                    book.getTitle(),
+                    similarBooks
+            );
         }
+
+
+
+
+
 
         userBookRepository.save(userBook);
     }
@@ -242,5 +254,29 @@ public class UserBookService {
         }
 
         return books;
+    }
+
+    private List<String> getSimilarBookTitles(Book book) {
+
+        String prompt =
+                "أنت مستشار كتب عربي. "
+                        + "اقترح 5 كتب مشابهة لهذا الكتاب. "
+                        + "أعد JSON صحيح فقط بهذا الشكل: "
+                        + "{ \"similarBooks\":\"\" }. "
+                        + "داخل similarBooks اكتب أسماء الكتب فقط بالعربي. "
+                        + "كل كتاب في سطر مستقل. "
+                        + "استخدم \\n بين كل كتاب والذي يليه. "
+                        + "لا تكتب المؤلف ولا سبب التشابه. "
+                        + "لا تضف markdown ولا ```json. "
+                        + "بيانات الكتاب: "
+                        + "العنوان = " + book.getTitle()
+                        + ", المؤلف = " + book.getAuthor()
+                        + ".";
+        Map<String, String> aiResponse =
+                openAIService.generateJsonAnalysis(prompt);
+
+        String suggestions = aiResponse.get("similarBooks");
+
+        return List.of(suggestions.split("\n"));
     }
 }
