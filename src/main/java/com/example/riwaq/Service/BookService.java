@@ -23,9 +23,7 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
-//    private final GoogleBookService googleBookService;
-
-    //
+    //private final GoogleBookService googleBookService;
     private final ReviewRepository reviewRepository;
     private final PostRepository postRepository;
     private final OpenAIService openAIService;
@@ -77,7 +75,7 @@ public class BookService {
         bookRepository.delete(book);
     }
     // endpoint
-
+/*
     public void addBookFromGoogle(Integer userId, String title){
 
         User user = userRepository.findUserById(userId);
@@ -96,6 +94,8 @@ public class BookService {
         book.setSource("GOOGLE_BOOK");
         bookRepository.save(book);
     }
+
+ */
 
     public List<Book> getBooksByAuthor(String author){
 

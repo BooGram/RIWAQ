@@ -10,7 +10,8 @@ public interface UserBookRepository extends JpaRepository<UserBook, Integer> {
     UserBook findUserBookById(Integer id);
     List<UserBook> findUserBooksByUser_Id(Integer userId);
 
-    List<UserBook> findUserBooksByUser_IdAndStatus(
-            Integer userId,
-            String status
-    );}
+    List<UserBook> findUserBooksByUser_IdAndStatus(Integer userId, String status);
+
+    UserBook findUserBookByUserIdAndBookId(Integer userId, Integer bookId);//raghad add
+
+}

@@ -53,6 +53,7 @@ public class BookController {
         return ResponseEntity.status(200)
                 .body(bookService.getBooksByAuthor(author));
     }
+    /*
     @PostMapping("/add-google/{userId}")
     public ResponseEntity addBookFromGoogle(@PathVariable Integer userId,
                                             @RequestParam String title) {
@@ -62,6 +63,8 @@ public class BookController {
         return ResponseEntity.status(201)
                 .body("Book added from Google successfully");
     }
+
+     */
 
     @GetMapping("/dashboard/{bookId}")
     public ResponseEntity getBookDashboard(@PathVariable Integer bookId){
