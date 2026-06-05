@@ -45,11 +45,21 @@ public class PostNotificationService {
                 continue;
             }
 
-            notificationService.sendPostAboutCurrentBookNotification(
-                    readerId,
-                    userBook.getBook().getTitle(),
-                    post.getId()
-            );
+            if (Boolean.TRUE.equals(post.getAnalysisGenerated())) {
+                notificationService.sendAnalyzedPostAboutCurrentBookNotification(
+                        readerId,
+                        userBook.getBook().getTitle(),
+                        post.getId(),
+                        post.getPostType(),
+                        post.getSummary()
+                );
+            } else {
+                notificationService.sendPostAboutCurrentBookNotification(
+                        readerId,
+                        userBook.getBook().getTitle(),
+                        post.getId()
+                );
+            }
         }
     }
 }

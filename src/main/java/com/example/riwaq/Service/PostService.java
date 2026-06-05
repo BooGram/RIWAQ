@@ -28,6 +28,7 @@ public class PostService {
     private final UserBookRepository userBookRepository;
     private final FriendshipRepository friendshipRepository;
     private final PostNotificationService postNotificationService;
+    private final PostAnalysisService postAnalysisService;
 
     public List<PostDTOOut> getAllPosts() {
         List<Post> posts = postRepository.findAll();
@@ -124,6 +125,13 @@ public class PostService {
         }
 
         Post savedPost = postRepository.save(post);
+
+        try {
+            postAnalysisService.analyzePost(savedPost.getId());
+        } catch (Exception e) {
+            System.out.println("Post analysis not generated");
+        }
+
         postNotificationService.notifyReadersAboutPost(savedPost.getId());
     }
 

@@ -116,6 +116,63 @@ public class NotificationService {
                 "POST");
     }
 
+    public void sendPostAboutCurrentBookNotification(Integer userId,
+                                                     String bookTitle,
+                                                     Integer postId,
+                                                     String postType,
+                                                     String summary) {
+
+        String message =
+                "تمت مشاركة منشور جديد حول كتاب \"" + bookTitle + "\".";
+
+        if (postType != null && !postType.isBlank()) {
+            message += "\n\nنوع المنشور: " + (postType);
+        }
+
+        if (summary != null && !summary.isBlank()) {
+            message = message + "\n" + "ملخص المنشور: " + summary;
+        }
+
+        sendNotification(userId,
+                "POST_ABOUT_CURRENT_BOOK",
+                message,
+                postId,
+                "POST");
+    }
+
+    public void sendAnalyzedPostAboutCurrentBookNotification(Integer userId,
+                                                             String bookTitle,
+                                                             Integer postId,
+                                                             String postType,
+                                                             String summary) {
+
+        String message =
+                          "\n\n📖 " + bookTitle
+                        + "\n\n" + getPostTypeMessage(postType)
+                        + "\n\n\"" + summary + "\"";
+
+        sendNotification(userId,
+                "POST_ABOUT_CURRENT_BOOK",
+                message,
+                postId,
+                "POST");
+    }
+
+    private String getPostTypeMessage(String postType) {
+        if (postType == null) {
+            return "تمت مشاركة منشور جديد:";
+        }
+
+        return switch (postType) {
+            case "Recommendation" -> "تمت مشاركة توصية جديدة:";
+            case "Criticism" -> "تمت مشاركة انتقاد جديد:";
+            case "Discussion" -> "تمت مشاركة نقاش جديد:";
+            case "Question" -> "تمت مشاركة سؤال جديد:";
+            case "Reflection" -> "تمت مشاركة تأمل جديد:";
+            default -> "تمت مشاركة منشور جديد:";
+        };
+    }
+
     private void sendNotification(Integer userId,
                                   String type,
                                   String message) {
@@ -151,11 +208,15 @@ public class NotificationService {
                 break;
 
             case "POST_ABOUT_CURRENT_BOOK":
-            subject = "منشور جديد حول كتابك الحالي 📖";
+            subject = "منشور جديد حول كتابك الحالي 📝";
             break;
 
             default:
                 subject = "إشعار من رواق";
+        }
+
+        if ("POST_ABOUT_CURRENT_BOOK".equals(type)) {
+            subject = "💬 منشور جديد حول كتابك الحالي";
         }
 
         try {
