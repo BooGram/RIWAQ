@@ -161,11 +161,11 @@ public class SpaceMembershipService {
                 continue;
             }
 
-            Friendship friendship = friendshipRepository.findFriendshipBySenderIdAndReceiverId(userId, memberId);
+            Friendship friendship = friendshipRepository.findFriendshipBySender_IdAndReceiver_Id(userId, memberId);
 
             if (friendship == null) {
 
-                friendship = friendshipRepository.findFriendshipBySenderIdAndReceiverId(memberId, userId);
+                friendship = friendshipRepository.findFriendshipBySender_IdAndReceiver_Id(memberId, userId);
             }
 
             if (friendship != null && friendship.getStatus().equalsIgnoreCase("ACCEPTED")) {

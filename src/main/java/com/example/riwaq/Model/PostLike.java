@@ -1,7 +1,6 @@
 package com.example.riwaq.Model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -20,16 +19,15 @@ public class PostLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-     @ManyToOne
-     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-     private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-     @ManyToOne
-     @JoinColumn(name = "post_id", insertable = false, updatable = false)
-     private Post post;
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 }

@@ -52,7 +52,7 @@ public class FriendshipService {
             throw new ApiException("User cannot send friendship request to themselves");
         }
 
-        Friendship existingFriendship = friendshipRepository.findFriendshipBySenderIdAndReceiverId(
+        Friendship existingFriendship = friendshipRepository.findFriendshipBySender_IdAndReceiver_Id(
                 senderId,
                 receiverId
         );
@@ -61,7 +61,7 @@ public class FriendshipService {
             throw new ApiException("Friendship already exists");
         }
 
-        Friendship reverseFriendship = friendshipRepository.findFriendshipBySenderIdAndReceiverId(
+        Friendship reverseFriendship = friendshipRepository.findFriendshipBySender_IdAndReceiver_Id(
                 receiverId,
                 senderId
         );
@@ -72,8 +72,8 @@ public class FriendshipService {
 
         Friendship friendship = new Friendship();
 
-        friendship.setSenderId(senderId);
-        friendship.setReceiverId(receiverId);
+        friendship.setSender(sender);
+        friendship.setReceiver(receiver);
         friendship.setStatus("PENDING");
 
         friendshipRepository.save(friendship);
@@ -87,7 +87,7 @@ public class FriendshipService {
             throw new ApiException("Friendship not found");
         }
 
-        if(!friendship.getReceiverId().equals(userId)){
+        if(!friendship.getReceiver().getId().equals(userId)){
             throw new ApiException("Only receiver can accept friendship request");
         }
 
@@ -108,7 +108,7 @@ public class FriendshipService {
             throw new ApiException("Friendship not found");
         }
 
-        if(!friendship.getReceiverId().equals(userId)){
+        if(!friendship.getReceiver().getId().equals(userId)){
             throw new ApiException("Only receiver can reject friendship request");
         }
 
@@ -132,8 +132,8 @@ public class FriendshipService {
     private FriendshipDTOOut convertToDTO(Friendship friendship) {
         return new FriendshipDTOOut(
                 friendship.getId(),
-                friendship.getSenderId(),
-                friendship.getReceiverId(),
+                friendship.getSender().getId(),
+                friendship.getReceiver().getId(),
                 friendship.getStatus()
         );
     }
@@ -148,7 +148,7 @@ public class FriendshipService {
             throw new ApiException("User not found");
         }
 
-        List<Friendship> pendingFriendships = friendshipRepository.findFriendshipsByReceiverIdAndStatus(userId, "PENDING");
+        List<Friendship> pendingFriendships = friendshipRepository.findFriendshipsByReceiver_IdAndStatus(userId, "PENDING");
 
         List<FriendshipDTOOut> pendingFriendshipDTOs = new ArrayList<>();
 

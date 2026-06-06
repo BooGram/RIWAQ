@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -15,14 +14,5 @@ public class FriendshipDTOOut {
     private Integer receiverId;
     private String status;
 
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Data
-    public static class SpaceMembershipDTOOut {
 
-        private Integer membershipId;
-        private Integer spaceId;
-        private Integer userId;
-        private LocalDateTime joinedAt;
-    }
 }

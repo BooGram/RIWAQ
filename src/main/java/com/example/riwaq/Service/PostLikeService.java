@@ -52,7 +52,7 @@ public class PostLikeService {
             throw new ApiException("Post not found");
         }
 
-        PostLike existing = postLikeRepository.findPostLikeByUserIdAndPostId(
+        PostLike existing = postLikeRepository.findPostLikeByUser_IdAndPost_Id(
                 userId,
                 postId
         );
@@ -62,8 +62,8 @@ public class PostLikeService {
         }
 
         PostLike postLike = new PostLike();
-        postLike.setUserId(userId);
-        postLike.setPostId(postId);
+        postLike.setUser(user);
+        postLike.setPost(post);
 
         postLikeRepository.save(postLike);
 
@@ -77,8 +77,19 @@ public class PostLikeService {
         if (postLike == null) {
             throw new ApiException("Post like not found");
         }
-        postLike.setUserId(userId);
-        postLike.setPostId(postId);
+
+        User user = userRepository.findUserById(userId);
+        if (user == null) {
+            throw new ApiException("User not found");
+        }
+
+        Post post = postRepository.findPostById(postId);
+        if (post == null) {
+            throw new ApiException("Post not found");
+        }
+
+        postLike.setUser(user);
+        postLike.setPost(post);
         postLikeRepository.save(postLike);
     }
 
@@ -89,7 +100,7 @@ public class PostLikeService {
             throw new ApiException("Post like not found");
         }
 
-        Post post = postRepository.findPostById(postLike.getPostId());
+        Post post = postLike.getPost();
         if (post != null && post.getLikeCounter() > 0) {
             post.setLikeCounter(post.getLikeCounter() - 1);
             postRepository.save(post);
@@ -101,8 +112,8 @@ public class PostLikeService {
     private PostLikeDTOOut convertToDTO(PostLike postLike) {
         return new PostLikeDTOOut(
                 postLike.getId(),
-                postLike.getUserId(),
-                postLike.getPostId(),
+                postLike.getUser().getId(),
+                postLike.getPost().getId(),
                 postLike.getCreatedAt()
         );
     }
