@@ -102,8 +102,19 @@ public class UserBookService {
             throw new ApiException("Current page cannot be greater than page count");
         }
 
+        // =====  Streak  ===== //
+        Integer oldPage = userBook.getCurrentPage() == null ? 0 : userBook.getCurrentPage();
+        boolean progressIncreased = dto.getCurrentPage() > oldPage;
+        // =====  Streak  ===== //
+
         userBook.setCurrentPage(dto.getCurrentPage());
         userBook.setStatus(getStatus(dto.getCurrentPage(), book.getPageCount()));
+
+        // ==== Streak  ===== //
+        if (progressIncreased && dto.getCurrentPage() > 0) {
+            updateReadingStreak(userBook);
+        }
+        // =====  Streak  ===== //
 
         if (userBook.getStartedAt() == null && dto.getCurrentPage() > 0) {
             userBook.setStartedAt(LocalDate.now());
@@ -125,7 +136,7 @@ public class UserBookService {
             );
             //to get 5 similar book suggestions based on this completed book.
             List<String> similarBooks = getSimilarBookTitles(book);
-            userBook.setLastProgressUpdateAt(LocalDate.now());
+            //userBook.setLastProgressUpdateAt(LocalDate.now());
 
             notificationService.sendSimilarBooksNotification(
                     userBook.getUser().getId(),
@@ -254,6 +265,16 @@ public class UserBookService {
             averageProgress = totalProgress / userBooks.size();
         }
 
+        String streakMessage =
+                "أكمل المزيد من الكتب لبدء سلسلة إنجازاتك القرائية.";
+
+        if (completed >= 2) {
+            streakMessage =
+                    "تهانينا! لقد أكملت "
+                            + completed
+                            + " كتب وبدأت سلسلة إنجازاتك القرائية.";
+        }
+
 //        String prompt =
 //                "Return ONLY valid JSON in this format: "
 //                        + "{ \"readerProfile\":\"\", \"readingAdvice\":\"\" }. "
@@ -306,7 +327,7 @@ public class UserBookService {
         response.put("highestProgressBook", highestProgressBook);
         response.put("highestProgress", highestProgress + " %");
         response.put("userReviewsCount", userReviewsCount);
-
+        response.put("streak", streakMessage);
 
         return response;
     }
@@ -398,5 +419,28 @@ public class UserBookService {
                 );
             }
         }
+    }
+
+    //============raghad add(streak)
+    public void updateReadingStreak(UserBook userBook) {
+        LocalDate today = LocalDate.now();
+        LocalDate lastProgressDate = userBook.getLastProgressUpdateAt();
+
+        if (lastProgressDate == null) {
+            userBook.setReadingStreak(1);
+        } else {
+            long daysDifference = ChronoUnit.DAYS.between(lastProgressDate, today);
+
+            if (daysDifference == 0) {
+                return;
+            } else if (daysDifference == 1) {
+                Integer currentStreak = userBook.getReadingStreak() == null ? 0 : userBook.getReadingStreak();
+                userBook.setReadingStreak(currentStreak + 1);
+            } else {
+                userBook.setReadingStreak(1);
+            }
+        }
+
+        userBook.setLastProgressUpdateAt(today);
     }
 }
