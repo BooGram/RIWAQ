@@ -20,6 +20,9 @@ public class Space {
     @Column(nullable = false)
     private Integer bookId;
 
+    @Column(nullable = false)
+    private Integer creatorId;
+
     @Column(nullable = false, length = 20)
     private String name;
 
@@ -28,4 +31,9 @@ public class Space {
 
     @OneToMany(mappedBy = "space", cascade = CascadeType.ALL)
     private Set<SpaceMembership> memberships;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
+
 }

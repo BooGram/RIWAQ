@@ -2,7 +2,6 @@ package com.example.riwaq.Service;
 
 import com.example.riwaq.Api.ApiException;
 import com.example.riwaq.DTO.BookDto;
-//import com.example.riwaq.DTO.GoogleBookDto;
 import com.example.riwaq.DTO.GoogleBookDto;
 import com.example.riwaq.DTO.OUT.TopRatedBookDTOOut;
 import com.example.riwaq.Model.Book;
@@ -145,13 +144,16 @@ public class BookService {
             throw new ApiException("Book not found");
         }
 
+        // Count how many posts were created about this book.
         Integer postsCount = postRepository.countPostsByUserBook_Book_Id(bookId);
 
+        // all post related to this book
         List<Post> posts = postRepository.findPostsByUserBook_Book_Id(bookId);
 
         Integer mostPostedPage = null;
         Integer maxPosts = 0;
 
+        // هنا نجيب الصفحة اللي عندها اكبر عدد من post
         for(Post post : posts){
 
             Integer page = post.getPageNumber();
@@ -162,6 +164,7 @@ public class BookService {
 
             int count = 0;
 
+            // هنا نحسب عدد البوستات للصفحة
             for(Post p : posts){
                 if(p.getPageNumber() != null && p.getPageNumber().equals(page)){
                     count++;
