@@ -12,12 +12,12 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Integer>
 
     Friendship findFriendshipById(Integer id);
 
-    Friendship findFriendshipBySenderIdAndReceiverId(Integer senderId, Integer receiverId);
+    Friendship findFriendshipBySender_IdAndReceiver_Id(Integer senderId, Integer receiverId);
 
-    List<Friendship> findFriendshipsByReceiverIdAndStatus(Integer receiverId, String status);
+    List<Friendship> findFriendshipsByReceiver_IdAndStatus(Integer receiverId, String status);
 
-    List<Friendship> findFriendshipsBySenderIdAndStatus(Integer senderId, String status);
+    List<Friendship> findFriendshipsBySender_IdAndStatus(Integer senderId, String status);
 
-    @Query("select f from Friendship f where (f.receiverId = :userId or f.senderId = :userId) and f.status = :status")
+    @Query("select f from Friendship f where (f.receiver.id = :userId or f.sender.id = :userId) and f.status = :status")
     List<Friendship> findFriendshipsByUserIdAndStatus(Integer userId, String status);
 }

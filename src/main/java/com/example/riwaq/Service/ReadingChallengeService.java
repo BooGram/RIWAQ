@@ -49,10 +49,10 @@ public class ReadingChallengeService {
             throw new ApiException("User cannot challenge themselves");
         }
 
-        Friendship friendship = friendshipRepository.findFriendshipBySenderIdAndReceiverId(senderId, receiverId);
+        Friendship friendship = friendshipRepository.findFriendshipBySender_IdAndReceiver_Id(senderId, receiverId);
 
         if (friendship == null) {
-            friendship = friendshipRepository.findFriendshipBySenderIdAndReceiverId(receiverId, senderId);
+            friendship = friendshipRepository.findFriendshipBySender_IdAndReceiver_Id(receiverId, senderId);
         }
 
         if (friendship == null) {

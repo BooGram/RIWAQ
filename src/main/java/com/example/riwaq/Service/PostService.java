@@ -78,9 +78,9 @@ public class PostService {
         }
 
         List<Integer> friendIds = friendships.stream()
-                .map(friendship -> friendship.getSenderId().equals(userId)
-                        ? friendship.getReceiverId()
-                        : friendship.getSenderId())
+                .map(friendship -> friendship.getSender().getId().equals(userId)
+                        ? friendship.getReceiver().getId()
+                        : friendship.getSender().getId())
                 .collect(Collectors.toList());
 
         List<Post> posts = postRepository.findPostsByUser_IdInOrderByCreatedAtDesc(friendIds);
