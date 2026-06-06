@@ -51,7 +51,7 @@ public class NotificationService {
     public void sendWelcomeNotification(Integer userId) {
 
         String message =
-                "مرحبًا بك في رواق 📚، ابدأ رحلتك القرائية اليوم.";
+                "مرحبًا بك في رواق ، ابدأ رحلتك القرائية اليوم.";
 
         sendNotification(userId,
                 "WELCOME",
