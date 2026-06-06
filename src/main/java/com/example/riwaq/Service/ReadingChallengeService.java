@@ -76,12 +76,10 @@ public class ReadingChallengeService {
 
         validatePages(dto, book);
 
-        ReadingChallenge existing1 = readingChallengeRepository.findReadingChallengeByBookIdAndSenderIdAndReceiverIdAndStatusNot(bookId, senderId, receiverId, "COMPLETED");
+        ReadingChallenge existing1 = readingChallengeRepository.findReadingChallengeByBook_IdAndFriendship_IdAndStatusNot(book.getId(), friendship.getId(), "COMPLETED");
 
-        ReadingChallenge existing2 = readingChallengeRepository.findReadingChallengeByBookIdAndReceiverIdAndSenderIdAndStatusNot(bookId, senderId, receiverId, "COMPLETED");
-
-        if (existing1 != null || existing2 != null) {
-            throw new ApiException("There is already an active challenge for this book between these users");
+        if (existing1 != null) {
+            throw new ApiException("There is already an active challenge for this book between users");
         }
 
         ReadingChallenge challenge = new ReadingChallenge();
