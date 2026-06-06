@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -13,11 +14,9 @@ public interface ReadingChallengeRepository extends JpaRepository<ReadingChallen
 
     ReadingChallenge findReadingChallengeById(Integer id);
 
-    ReadingChallenge findReadingChallengeByBookIdAndSenderIdAndReceiverIdAndStatusNot(Integer bookId, Integer senderId, Integer receiverId, String status);
-
-    ReadingChallenge findReadingChallengeByBookIdAndReceiverIdAndSenderIdAndStatusNot(Integer bookId, Integer receiverId, Integer senderId, String status);
-
     List<ReadingChallenge> findReadingChallengesByStatus(String status);
 
     List<ReadingChallenge> findReadingChallengesByCreatedAtBetween(LocalDate startDate, LocalDate endDate);
+
+    ReadingChallenge findReadingChallengeByBook_IdAndFriendship_IdAndStatusNot(Integer bookId, Integer friendshipId, String status);
 }
