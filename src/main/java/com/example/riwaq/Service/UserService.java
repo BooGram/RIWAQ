@@ -80,4 +80,13 @@ public class UserService {
 
         return user;
     }
+
+    public User findUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email);
+        if (user == null) {
+            throw new ApiException("User not found");
+        }
+
+        return user;
+    }
 }

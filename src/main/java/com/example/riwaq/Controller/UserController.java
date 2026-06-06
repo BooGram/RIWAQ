@@ -45,4 +45,11 @@ public class UserController {
         return ResponseEntity.status(200)
                 .body(userService.getUserByUsername(username));
     }
+    @GetMapping("/email/{email}")
+    public ResponseEntity getUserByEmail(@PathVariable String email){
+
+        return ResponseEntity.status(200)
+                .body(userService.findUserByEmail(email));
+    }
+
 }
