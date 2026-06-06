@@ -1,4 +1,4 @@
-# 📚 RIWAQ – Reading Platform
+# 📚 RIWAQ – system
 
 > Intelligent reading platform that helps users manage their books, track reading progress, and organize their reading journey through personalized insights and smart recommendations.
 
