@@ -5,8 +5,9 @@
 ![Java](https://img.shields.io/badge/Java-17-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-green)
 ![MySQL](https://img.shields.io/badge/MySQL-Database-blue)
-![OpenAI](https://img.shields.io/badge/OpenAI-AI-purple)
 ![Google Books](https://img.shields.io/badge/Google_Books-API-red)
+![OpenAI](https://img.shields.io/badge/OpenAI-AI-purple)
+
 
 ---
 
