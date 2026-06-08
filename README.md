@@ -7,6 +7,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-Database-blue)
 ![OpenAI](https://img.shields.io/badge/OpenAI-AI-purple)
 ![Google Books](https://img.shields.io/badge/Google_Books-API-red)
+![Spring Mail](https://img.shields.io/badge/Spring_Mail-Email-brightgreen)
 
 ---
 
